@@ -8,5 +8,5 @@ use App\DTO\ExportDTO;
 
 interface ExportInterface
 {
-    public function export(ExportDTO $exportDTO);
+    public function export(ExportDTO $exportDTO): string;
 }

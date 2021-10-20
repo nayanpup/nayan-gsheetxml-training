@@ -73,7 +73,7 @@ class UploadCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln("Start: xml to google sheet command");
+        $output->writeln("Executing xml to google sheet export command");
         try {
             $reader = $this->fileReaderFactory->getReader($input->getOption(self::UPLOAD_FROM));
         } catch (InvalidFileReaderArgumentException $exception) {
@@ -100,8 +100,10 @@ class UploadCommand extends Command
 
         $output->writeln("Starting to push xml to google sheet");
         try {
-            $this->exporter->export($exportDTO);
-            $this->logger->error(sprintf("Success: %s pushed successfully", $fileName));
+            $spreadsheetId = $this->exporter->export($exportDTO);
+            $spreadsheetLink = AppConstants::SPREADSHEET_URL . $spreadsheetId;
+            $output->writeln('Spreadsheet created: ' . $spreadsheetLink);
+            $this->logger->info(sprintf("Success: %s pushed successfully", $spreadsheetLink));
             return self::SUCCESS;
         } catch (Exception $exception) {
             $this->logger->error("Failure: " . $exception->getMessage());

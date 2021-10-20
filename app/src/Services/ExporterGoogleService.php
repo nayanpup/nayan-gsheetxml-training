@@ -84,20 +84,22 @@ class ExporterGoogleService implements ExportInterface
         return $result;
     }
 
-    public function export(ExportDTO $exportDTO): UpdateValuesResponse
+    public function export(ExportDTO $exportDTO): string
     {
         $spreadsheetId = $this->create();
         $this->setPermissions($spreadsheetId);
         $range = "Sheet1";
         $valueInputOption = "USER_ENTERED";
-        $values = [$exportDTO->getExportData()];
+        $values = $exportDTO->getExportData();
 
-        return $this->updateValues(
+        $this->updateValues(
             $spreadsheetId,
             $range,
             $valueInputOption,
             $values
         );
+
+        return $spreadsheetId;
     }
 
     private function setPermissions(string $spreadsheetId): void

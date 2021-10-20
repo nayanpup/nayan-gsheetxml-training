@@ -11,16 +11,6 @@ use App\Interfaces\FileReaderInterface;
 
 class FileReaderFactory
 {
-    /**
-     * @var string
-     */
-    private $projectDir;
-
-    public function __construct(string $projectDir)
-    {
-        $this->projectDir = $projectDir;
-    }
-
     public function getReader(string $uploadFrom): FileReaderInterface
     {
         switch ($uploadFrom) {

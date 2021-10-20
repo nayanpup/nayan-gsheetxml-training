@@ -1,10 +1,14 @@
+parameters:
+  spreadsheet_auth_url: !php/const App\Constants\AppConstants::SPREADSHEET_AUTH_URL
+  drive_auth_url: !php/const App\Constants\AppConstants::DRIVE_AUTH_URL
+
 services:
    gs.client:
       class: Google_Client
       autowire: true
       calls:
         - [setAuthConfig, ['%env(GS_AUTH_FILE)%']]
-        - [setScopes, [['https://www.googleapis.com/auth/spreadsheets']]]
+        - [setScopes, [['%spreadsheet_auth_url%' , '%drive_auth_url%']]]
    Google_Client: '@gs.client'
    Google_Service_Sheets:
       class: Google_Service_Sheets
@@ -14,5 +18,3 @@ services:
       class: Google_Service_Drive
       arguments:
          $clientOrConfig: '@gs.client'
-
-
