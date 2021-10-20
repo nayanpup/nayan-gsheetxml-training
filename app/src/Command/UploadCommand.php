@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
 
 use App\Constants\AppConstants;
 use App\Exception\InvalidFileReaderArgumentException;
-use App\Factory\FileReaderFactory;
+use App\Factory\FileReader\FileReaderFactory;
 use App\Interfaces\ExportInterface;
 use App\Transformers\FileDataTransformer;
 use Exception;

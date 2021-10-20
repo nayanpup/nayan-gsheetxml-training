@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\FileReader;
+namespace App\Factory\FileReader;
 
 use App\Exception\LocalFileNotFoundException;
 use App\Interfaces\FileReaderInterface;
