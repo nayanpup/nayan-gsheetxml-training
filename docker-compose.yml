@@ -1,0 +1,19 @@
+version: '3'
+
+networks:
+    symfony-command-app:
+
+services:
+
+    # php
+    php74-service:
+        build:
+            context: .
+            dockerfile: ./php/Dockerfile
+        container_name: symfony-command-php74-container
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./app:/var/www/project
+        networks:
+            - symfony-command-app
