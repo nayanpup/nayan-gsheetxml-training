@@ -25,14 +25,18 @@ class FileDataTransformer
 
         foreach ($fileData['item'] as $key => $datum) {
             if (0 === $key) {
-                $exportData[] = array_map(function ($arg) {
-                    return ucfirst($arg);
-                }, array_keys($datum));
+                $exportData[] = array_map(
+                    function ($arg) {
+                        return ucfirst($arg);
+                    }, array_keys($datum)
+                );
             }
 
-            $exportData[] = array_map(function ($arg) {
-                return is_array($arg) ? '' : trim($arg);
-            }, array_values($datum));
+            $exportData[] = array_map(
+                function ($arg) {
+                    return is_array($arg) ? '' : trim($arg);
+                }, array_values($datum)
+            );
         }
 
         return new ExportDTO($exportData);

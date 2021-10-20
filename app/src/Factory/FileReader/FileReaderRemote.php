@@ -31,8 +31,7 @@ class FileReaderRemote implements FileReaderInterface
         string $host,
         string $username,
         string $password
-    )
-    {
+    ) {
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
@@ -54,7 +53,7 @@ class FileReaderRemote implements FileReaderInterface
         $tmpFile = tempnam('/tmp', 'FTP_FILE');
 
         try {
-            ftp_pasv($connection, TRUE);
+            ftp_pasv($connection, true);
             ftp_get($connection, $tmpFile, $fileName, FTP_BINARY);
         } catch (Exception $e) {
             throw new RemoteFileNotFoundException(sprintf("%s file not found", $fileName));

@@ -35,8 +35,7 @@ class ExporterGoogleService implements ExportInterface
         Google_Service_Sheets $serviceSheets,
         Google_Service_Drive $serviceDrive,
         LoggerInterface $logger
-    )
-    {
+    ) {
         $this->serviceSheets = $serviceSheets;
         $this->serviceDrive = $serviceDrive;
         $this->logger = $logger;
@@ -44,15 +43,19 @@ class ExporterGoogleService implements ExportInterface
 
     private function create(): string
     {
-        $spreadsheet = new Google_Service_Sheets_Spreadsheet([
+        $spreadsheet = new Google_Service_Sheets_Spreadsheet(
+            [
             'properties' => [
                 'title' => 'Xml to G Sheet'
             ]
-        ]);
+            ]
+        );
 
-        $spreadsheet = $this->serviceSheets->spreadsheets->create($spreadsheet, [
+        $spreadsheet = $this->serviceSheets->spreadsheets->create(
+            $spreadsheet, [
             'fields' => 'spreadsheetId'
-        ]);
+            ]
+        );
 
         $this->logger->info(printf("Created Spreadsheet ID: %s\n", $spreadsheet->spreadsheetId));
 
@@ -61,14 +64,18 @@ class ExporterGoogleService implements ExportInterface
 
     private function updateValues(string $spreadsheetId, string $range, string $valueInputOption, array $values): UpdateValuesResponse
     {
-        $body = new Google_Service_Sheets_ValueRange([
+        $body = new Google_Service_Sheets_ValueRange(
+            [
             'values' => $values
-        ]);
+            ]
+        );
         $params = [
             'valueInputOption' => $valueInputOption
         ];
-        $result = $this->serviceSheets->spreadsheets_values->update($spreadsheetId, $range,
-            $body, $params);
+        $result = $this->serviceSheets->spreadsheets_values->update(
+            $spreadsheetId, $range,
+            $body, $params
+        );
 
         $this->logger->info(printf("%d cells updated.", $result->getUpdatedCells()));
 

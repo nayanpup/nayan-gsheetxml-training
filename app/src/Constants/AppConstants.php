@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Constants;
 
-class AppConstants {
+class AppConstants
+{
     const LOCAL = 'local';
     const REMOTE = 'remote';
     const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/';

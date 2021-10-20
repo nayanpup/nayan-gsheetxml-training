@@ -44,13 +44,12 @@ class UploadCommand extends Command
     private $exporter;
 
     public function __construct(
-        string                $name = null,
-        ExportInterface       $exporter,
-        LoggerInterface       $logger,
-        FileReaderFactory     $fileReaderFactory,
-        FileDataTransformer   $fileDataTransformer
-    )
-    {
+        string              $name = null,
+        ExportInterface     $exporter,
+        LoggerInterface     $logger,
+        FileReaderFactory   $fileReaderFactory,
+        FileDataTransformer $fileDataTransformer
+    ) {
         parent::__construct($name);
         $this->logger = $logger;
         $this->fileReaderFactory = $fileReaderFactory;
@@ -68,7 +67,9 @@ class UploadCommand extends Command
                 self::OPTION_DESCRIPTION,
                 AppConstants::LOCAL
             )
-            ->addArgument(self::ARGUMENT_FILE, InputArgument::REQUIRED, 'Xml file path from local or URL');
+            ->addArgument(
+                self::ARGUMENT_FILE, InputArgument::REQUIRED, 'Xml file path from local or URL'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -29,8 +29,7 @@ class FileReaderFactory
         string $host,
         string $username,
         string $password
-    )
-    {
+    ) {
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
