@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Tests\UnitTests\FileReader;
 
 use App\Exception\LocalFileNotFoundException;
-use App\FileReader\FileReaderLocal;
+use App\Factory\FileReader\FileReaderLocal;
 use PHPUnit\Framework\TestCase;
 
 class FileReaderTest extends TestCase

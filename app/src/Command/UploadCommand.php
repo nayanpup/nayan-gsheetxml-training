@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Constants\AppConstants;
-use App\Exception\InvalidFileReaderArgumentException;
 use App\Factory\FileReader\FileReaderFactory;
 use App\Interfaces\ExportInterface;
 use App\Transformers\FileDataTransformer;
@@ -76,8 +75,9 @@ class UploadCommand extends Command
     {
         $output->writeln("Executing xml to google sheet export command");
         try {
+            // getting the correct class/factory needed for fetching xml file data
             $reader = $this->fileReaderFactory->getReader($input->getOption(self::UPLOAD_FROM));
-        } catch (InvalidFileReaderArgumentException $exception) {
+        } catch (Exception $exception) {
             $this->logger->error("Failure: " . $exception->getMessage());
             return self::FAILURE;
         }

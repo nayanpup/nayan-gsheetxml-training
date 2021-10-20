@@ -22,7 +22,10 @@ class CommandTest extends KernelTestCase
         $application = new Application(self::$kernel);
         $command = $application->find('app:upload-command');
         $commandTester = new CommandTester($command);
-        $result = $commandTester->execute([]);
+        $result = $commandTester->execute([
+            '--upload-from' => 'local',
+            'file' => 'data/dummy.xml'
+        ]);
         $this->assertEquals(Command::SUCCESS, $result);
     }
 }
