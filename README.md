@@ -11,10 +11,19 @@ This ia a command application which pushes local or remote xml file's data to a 
 
 - Create [Google service account](https://support.google.com/a/answer/7378726?hl=en) and download JSON file which has all the credentials.
 - Enable Google Sheets API and Google Drive API. 
-- Next step is to setup environment variables for google account and give file path
+- Next step is to setup environment. file env.dist contains all the variables required for application.
+
+- For Google service account set following env variable. Write path to the credentials JSON file.
   ```
   GS_AUTH_FILE=service-account-credentials.json
   ```
+- For accessing files from remote server set following env credentials 
+  ``` 
+  FTP_HOST=
+  FTP_USERNAME=
+  FTP_PASSWORD=
+  ```
+
 - Run docker container 
   ```
     docker-compose up -d
