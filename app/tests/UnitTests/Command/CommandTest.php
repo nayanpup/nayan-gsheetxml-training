@@ -4,28 +4,23 @@ declare(strict_types=1);
 
 namespace App\Tests\UnitTests\Command;
 
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Command\UploadCommand;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CommandTest extends KernelTestCase
+class CommandTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        self::bootKernel();
-    }
-
     /** @test */
     public function upload_command_works_correctly()
     {
-        $application = new Application(self::$kernel);
-        $command = $application->find('app:upload-command');
-        $commandTester = new CommandTester($command);
+        $uploadCommand = $this->createMock(UploadCommand::class);
+        $commandTester = new CommandTester($uploadCommand);
         $result = $commandTester->execute([
             '--upload-from' => 'local',
             'file' => 'data/dummy.xml'
         ]);
+
         $this->assertEquals(Command::SUCCESS, $result);
     }
 }

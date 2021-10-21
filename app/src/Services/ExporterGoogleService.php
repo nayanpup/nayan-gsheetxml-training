@@ -41,32 +41,32 @@ class ExporterGoogleService implements ExportInterface
         $this->logger = $logger;
     }
 
-    private function create(): string
+    private function createSheet(): string
     {
         $spreadsheet = new Google_Service_Sheets_Spreadsheet(
             [
-            'properties' => [
-                'title' => 'Xml to G Sheet'
-            ]
+                'properties' => [
+                    'title' => 'Xml to G Sheet'
+                ]
             ]
         );
 
-        $spreadsheet = $this->serviceSheets->spreadsheets->create(
+        $result = $this->serviceSheets->spreadsheets->create(
             $spreadsheet, [
-            'fields' => 'spreadsheetId'
+                'fields' => 'spreadsheetId'
             ]
         );
 
-        $this->logger->info(printf("Created Spreadsheet ID: %s\n", $spreadsheet->spreadsheetId));
+        $this->logger->info(printf("Created Spreadsheet ID: %s\n", $result->spreadsheetId));
 
-        return $spreadsheet->spreadsheetId;
+        return $result->spreadsheetId;
     }
 
     private function updateValues(string $spreadsheetId, string $range, string $valueInputOption, array $values): UpdateValuesResponse
     {
         $body = new Google_Service_Sheets_ValueRange(
             [
-            'values' => $values
+                'values' => $values
             ]
         );
         $params = [
@@ -93,7 +93,7 @@ class ExporterGoogleService implements ExportInterface
 
     public function export(ExportDTO $exportDTO): string
     {
-        $spreadsheetId = $this->create();
+        $spreadsheetId = $this->createSheet();
         $this->setPermissions($spreadsheetId);
         $range = "Sheet1";
         $valueInputOption = "USER_ENTERED";
