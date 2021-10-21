@@ -18,7 +18,7 @@ class CommandTest extends TestCase
         $commandTester = new CommandTester($uploadCommand);
         $result = $commandTester->execute([
             '--upload-from' => 'local',
-            'file' => 'data/dummy.xml'
+            'file' => 'tests/DataProvider/dummy.xml'
         ]);
 
         $this->assertEquals(Command::SUCCESS, $result);

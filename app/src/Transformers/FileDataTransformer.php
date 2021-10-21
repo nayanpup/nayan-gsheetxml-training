@@ -6,19 +6,21 @@ namespace App\Transformers;
 
 use App\DTO\ExportDTO;
 use App\Exception\EmptyLocalFileException;
+use App\Exception\InvalidXMLContentException;
+use Exception;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 class FileDataTransformer
 {
-    public function transform($content): ExportDTO
+    public function transform(string $content): ExportDTO
     {
-        $decoder = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
-        $fileData = $decoder->decode($content, 'xml');
-
-        if (empty($fileData)) {
-            throw new EmptyLocalFileException("File does not contain any data");
+        try {
+            $decoder = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
+            $fileData = $decoder->decode($content, 'xml');
+        } catch (Exception $exception) {
+            throw new InvalidXMLContentException("Invalid xml content");
         }
 
         $exportData = [];
