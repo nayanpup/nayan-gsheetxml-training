@@ -82,15 +82,6 @@ class ExporterGoogleService implements ExportInterface
         return $result;
     }
 
-    public function getValues(string $spreadsheetId, string $range)
-    {
-        $result = $this->serviceSheets->spreadsheets_values->get($spreadsheetId, $range);
-        $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
-        $this->logger->info(printf("%d rows retrieved.", $numRows));
-
-        return $result;
-    }
-
     public function export(ExportDTO $exportDTO): string
     {
         $spreadsheetId = $this->createSheet();
