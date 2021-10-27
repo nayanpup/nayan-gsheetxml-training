@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTests\Command;
+namespace App\Tests\Unit\Command;
 
 use App\Command\UploadCommand;
 use PHPUnit\Framework\TestCase;

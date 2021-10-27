@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTests\Services;
+namespace App\Tests\Unit\Services;
 
 use App\Services\ExporterGoogleService;
 use App\Tests\DataProvider\DataProvider;

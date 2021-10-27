@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTests\Transformers;
+namespace App\Tests\Unit\Transformers;
 
 use App\Exception\InvalidXMLContentException;
 use App\Tests\DataProvider\DataProvider;

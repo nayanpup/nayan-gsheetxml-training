@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factory\FileReader;
 
+use App\Client\FtpClient;
 use App\Constants\AppConstants;
 use App\Exception\InvalidFileReaderArgumentException;
 use App\Interfaces\FileReaderInterface;
@@ -11,28 +12,13 @@ use App\Interfaces\FileReaderInterface;
 class FileReaderFactory
 {
     /**
-     * @var string
+     * @var FtpClient
      */
-    private $host;
+    private $ftpClient;
 
-    /**
-     * @var string
-     */
-    private $username;
-
-    /**
-     * @var string
-     */
-    private $password;
-
-    public function __construct(
-        string $host,
-        string $username,
-        string $password
-    ) {
-        $this->host = $host;
-        $this->username = $username;
-        $this->password = $password;
+    public function __construct(FtpClient $ftpClient)
+    {
+        $this->ftpClient = $ftpClient;
     }
 
     public function getReader(string $uploadFrom): FileReaderInterface
@@ -41,11 +27,7 @@ class FileReaderFactory
             case AppConstants::LOCAL:
                 return new FileReaderLocal();
             case AppConstants::REMOTE:
-                return new FileReaderRemote(
-                    $this->host,
-                    $this->username,
-                    $this->password
-                );
+                return new FileReaderRemote($this->ftpClient);
             default:
                 throw new InvalidFileReaderArgumentException('Invalid arguments for file reader.');
         }
