@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Transformers;
 
 use App\DTO\ExportDTO;
-use App\Exception\EmptyLocalFileException;
 use App\Exception\InvalidXMLContentException;
 use Exception;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
