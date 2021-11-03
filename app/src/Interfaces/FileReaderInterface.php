@@ -6,5 +6,5 @@ namespace App\Interfaces;
 
 interface FileReaderInterface
 {
-    public function getData(string $fileName): string;
+    public function getContent(string $source, string $fileName): string;
 }

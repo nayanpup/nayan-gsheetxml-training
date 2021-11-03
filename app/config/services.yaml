@@ -24,8 +24,7 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Client\FtpClient:
-       arguments:
-           $host: '%env(FTP_HOST)%'
-           $username: '%env(FTP_USERNAME)%'
-           $password: '%env(FTP_PASSWORD)%'
+    App\Services\FileReaderService:
+        arguments:
+            $ftpPrefix: "ftp://%env(FTP_USERNAME)%:%env(FTP_PASSWORD)%@%env(FTP_HOST)%/"
+            $projectDir: '%kernel.project_dir%/'

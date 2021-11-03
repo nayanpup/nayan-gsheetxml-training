@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Constants\AppConstants;
-use App\Factory\FileReader\FileReaderFactory;
 use App\Interfaces\ExportInterface;
+use App\Interfaces\FileReaderInterface;
 use App\Transformers\FileDataTransformer;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -29,11 +29,6 @@ class UploadCommand extends Command
     private $logger;
 
     /**
-     * @var FileReaderFactory
-     */
-    private $fileReaderFactory;
-
-    /**
      * @var FileDataTransformer
      */
     private $fileDataTransformer;
@@ -43,18 +38,23 @@ class UploadCommand extends Command
      */
     private $exporter;
 
+    /**
+     * @var FileReaderInterface
+     */
+    private $fileReader;
+
     public function __construct(
         string              $name = null,
         ExportInterface     $exporter,
         LoggerInterface     $logger,
-        FileReaderFactory   $fileReaderFactory,
-        FileDataTransformer $fileDataTransformer
+        FileDataTransformer $fileDataTransformer,
+        FileReaderInterface $fileReader
     ) {
         parent::__construct($name);
         $this->logger = $logger;
-        $this->fileReaderFactory = $fileReaderFactory;
         $this->fileDataTransformer = $fileDataTransformer;
         $this->exporter = $exporter;
+        $this->fileReader = $fileReader;
     }
 
     protected function configure(): void
@@ -76,17 +76,10 @@ class UploadCommand extends Command
     {
         $output->writeln("Executing xml to google sheet export command");
         try {
-            // getting the correct class/factory needed for fetching xml file data
-            $reader = $this->fileReaderFactory->getReader($input->getOption(self::UPLOAD_FROM));
-        } catch (Exception $exception) {
-            $this->logger->error("Failure: " . $exception->getMessage());
-            return self::FAILURE;
-        }
-
-        $output->writeln("Fetching the data as per given options and arguments");
-        $fileName = $input->getArgument(self::ARGUMENT_FILE);
-        try {
-            $fileData = $reader->getData($fileName);
+            $content = $this->fileReader->getContent(
+                $input->getOption(self::UPLOAD_FROM),
+                $input->getArgument(self::ARGUMENT_FILE)
+            );
         } catch (Exception $exception) {
             $this->logger->error("Failure: " . $exception->getMessage());
             return self::FAILURE;
@@ -94,7 +87,7 @@ class UploadCommand extends Command
 
         $output->writeln("Transforming file data");
         try {
-            $exportDTO = $this->fileDataTransformer->transform($fileData);
+            $exportDTO = $this->fileDataTransformer->transform($content);
         } catch (Exception $exception) {
             $this->logger->error("Failure: " . $exception->getMessage());
             return self::FAILURE;
